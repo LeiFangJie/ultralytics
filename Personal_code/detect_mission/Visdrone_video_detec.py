@@ -5,13 +5,12 @@ import cv2
 model = YOLO("yolo26n.yaml").load("yolo26n.pt")
 
 results = model.train(
-    stream = True,
     data="datasets/Visdrone/video/visdrone_vid.yaml",
-    epochs=50,          # 可以更长，配合早停
+    epochs=10,          # 可以更长，配合早停
     patience=20,         # 早停，防止过拟合
     device=0,
     workers=0,           # workers=0 训练慢，建议设 4-8
-    batch=8,
+    batch=16,
     imgsz=960,           # 或尝试 960（如果显存够）
     freeze=23,           # 冻结前 22 层只有detection head，保护预训练权重
     lr0=0.001,           # 降低初始学习率，保护预训练权重
