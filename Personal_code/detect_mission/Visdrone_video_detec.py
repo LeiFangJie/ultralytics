@@ -2,20 +2,20 @@ from ultralytics import YOLO
 from pathlib import Path
 import cv2
 
-model = YOLO("yolo26n.yaml").load("yolo26n.pt")
+# model = YOLO("yolo26n.yaml").load("yolo26n.pt")
 
-results = model.train(
-    data="datasets/Visdrone/video/visdrone_vid.yaml",
-    epochs=10,          # 可以更长，配合早停
-    patience=20,         # 早停，防止过拟合
-    device=0,
-    workers=0,           # workers=0 训练慢，建议设 4-8
-    batch=16,
-    imgsz=960,           # 或尝试 960（如果显存够）
-    freeze=23,           # 冻结前 22 层只有detection head，保护预训练权重
-    lr0=0.001,           # 降低初始学习率，保护预训练权重
-    lrf=0.01,            # 最终学习率系数    
-)
+# results = model.train(
+#     data="datasets/Visdrone/video/visdrone_vid.yaml",
+#     epochs=30,          # 可以更长，配合早停
+#     patience=20,         # 早停，防止过拟合
+#     device=0,
+#     workers=0,           # workers=0 训练慢，建议设 4-8
+#     batch=8,
+#     imgsz=640,           # 或尝试 960（如果显存够）
+#     freeze=11,           # 冻结前 11 层只有detection head，保护预训练权重
+#     lr0=0.001,           # 降低初始学习率，保护预训练权重
+#     lrf=0.01,            # 最终学习率系数    
+# )
 
 # ========== 配置 ==========
 video_dir = Path("datasets/Visdrone/video/images/test")  # 放多个视频的文件夹
@@ -29,7 +29,7 @@ screen_w, screen_h = 1280, 768
 VIDEO_EXTS = {".mp4", ".avi", ".mov", ".mkv", ".flv", ".wmv"}
 
 # ========== 加载模型 ==========
-#model = YOLO("yolo26n.pt")
+model = YOLO("ultralytics-repo/runs/detect/train-6/weights/best.pt")
 # ========== 获取所有视频文件 ==========
 video_files = sorted([f for f in video_dir.iterdir() if f.suffix.lower() in VIDEO_EXTS])
 
@@ -48,14 +48,10 @@ for video_idx, video_path in enumerate(video_files, 1):
         source=str(video_path),    # ✅ 传入单个视频路径，而不是整个文件夹
         stream=True,               # 必须 True，逐帧返回
         save=True,                 # 保存带bbox的视频/图片
-        conf=0.25,
-        iou=0.45,
-        imgsz=960,
         device=0,
         project=save_project,
         name=f"{save_name}_{video_path.stem}",  # 每个视频单独一个子目录
-        exist_ok=True,
-        line_width=2,
+        exist_ok=True
     )
 
     # 内层循环：逐帧显示
