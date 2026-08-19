@@ -1,0 +1,20 @@
+{
+  "settings_version": "0.0.7",
+  "datasets_dir": "E:\\ulyralytics_bord_model\\datasets",
+  "weights_dir": "E:\\ulyralytics_bord_model\\ultralytics\\weights",
+  "runs_dir": "E:\\ulyralytics_bord_model\\ultralytics\\runs",
+  "uuid": "acc70372cf1c3d5a601770309a2496660607bf232171757f719e786673ba98da",
+  "sync": true,
+  "api_key": "",
+  "openai_api_key": "",
+  "clearml": true,
+  "comet": true,
+  "dvc": true,
+  "mlflow": true,
+  "neptune": true,
+  "raytune": true,
+  "tensorboard": false,
+  "wandb": false,
+  "vscode_msg": true,
+  "openvino_msg": true
+}
